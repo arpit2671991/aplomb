@@ -37,7 +37,7 @@ const Header = () => {
                 Contact Us
               </Link>
 
-              {currentUser ? ( <img src={currentUser.profilePicture} alt="profile picture"  className="rounded-full h-7 w-7" />) :
+              {currentUser ? (<Link to="/profile"> <img src={currentUser.profilePicture} alt="profile picture"  className="rounded-full h-7 w-7" /></Link>) :
               (
                 <Link className='border border-green-700 rounded-3xl px-6 text-center py-1 hover:bg-green-700 hover:text-white' to='/signin'>
                   <li>Sign In</li>

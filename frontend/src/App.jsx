@@ -7,6 +7,8 @@ import CoursesPage from './pages/CoursesPage'
 import CorporatePage from './pages/CorporatePage'
 import ContactPage from './pages/ContactPage'
 import SignupPage  from './pages/SignupPage'
+import PrivateRoute from './components/PrivateRoute'
+import ProfilePage from './pages/ProfilePage'
 
 
 
@@ -24,6 +26,9 @@ function App() {
         <Route path='/signin' element={<SigninPage />} />
         <Route path='/signup' element={<SignupPage />} />
         <Route path='/contact' element={<ContactPage />} />
+        <Route element={<PrivateRoute />}>
+          <Route path='/profile' element={<ProfilePage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   )
