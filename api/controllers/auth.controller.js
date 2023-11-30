@@ -44,7 +44,8 @@ export const signin = async(req, res,) => {
         const validUser = await User.findOne({email});
         if(!validUser) return res.status(404).json({msg: 'user does not exist!'})
         const validPassword = bcryptjs.compareSync(password, validUser.password)
-        if(!validPassword) return res.status(404).json({msg: 'wrong credentials!'})
+        if(!validPassword) return res.status(404).json({msg: 'wrong credentials!'});
+
         const token = jwt.sign({id: validUser._id}, `${process.env.jwt_secret}`, {expiresIn: '1h'})
         if(!token) return res.status(404).json({msg:'your session expired. please login again!'})
         const {password: pass, ...rest} = validUser._doc

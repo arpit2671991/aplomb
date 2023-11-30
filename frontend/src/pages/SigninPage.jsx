@@ -20,31 +20,57 @@ const SigninPage = () => {
     })
   }
 
-  const handleFormSubmit = async(e) => {
-    e.preventDefault()
+  // const handleFormSubmit = async(e) => {
+  //   e.preventDefault()
+  //   try {
+  //     dispatch(signInStart())
+  //     const res = await fetch("/api/auth/v1/signin", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(formData)
+  //     });
+  //     const data = await res.json()
+
+  //     if(data.success === false){
+  //       dispatch(signInFailure(data.message));
+  //       return;
+  //     }
+  //     dispatch(signInSuccess(data))
+  //     navigate('/')
+
+
+  //   } catch (error) {
+  //     dispatch(signInFailure(error))      
+  //   }
+  // }
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
     try {
-      dispatch(signInStart())
-      const res = await fetch("/api/auth/v1/signin", {
-        method: "POST",
+      dispatch(signInStart());
+      const res = await fetch('/api/auth/v1/signin', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData)
-      })
-      const data = await res.json()
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      console.log(data);
+       if(data.success === false){
+        dispatch(signInFailure(data.message))
+       }
 
-      if(data.success === false){
-        dispatch(signInFailure(data.error))
-        return;
-      }
-      dispatch(signInSuccess(data))
-      navigate('/')
-
-
+       dispatch(signInSuccess(data))
+       navigate('/')
+     
+ 
     } catch (error) {
-      dispatch(signInFailure(error))      
+      console.log(error)
     }
-  }
+  };
   return (
     <div className='max-w-lg mx-auto p-3'>
       <h1 className="text-xl text-center font-semibold my-7">Signin your account </h1>
@@ -55,9 +81,10 @@ const SigninPage = () => {
             <p>Password</p>
             <input type="password" id="password" className="border border-gray-900 p-3 rounded-lg focus: outline-none" onChange={handleInputChange} />
           <button  className='bg-orange-700 p-2 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-            Signin
+            {loading ? "Signing in..." : " Signin"}
           </button>
           <p className='text-xs'><span>Dont have an account ?</span><Link to='/signup' className='mx-2 font-semibold text-green-700'>Signup</Link></p>
+          {error && <p>{error.msg}</p>}
         </form>
       </div>
    
