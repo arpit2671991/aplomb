@@ -84,7 +84,7 @@ const SigninPage = () => {
             {loading ? "Signing in..." : " Signin"}
           </button>
           <p className='text-xs'><span>Dont have an account ?</span><Link to='/signup' className='mx-2 font-semibold text-green-700'>Signup</Link></p>
-          {error && <p>{error.msg}</p>}
+          {error && <p>{error}</p>}
         </form>
       </div>
    

@@ -11,17 +11,59 @@ import {
   signOutFailure,
   signOutSuccess,
 } from "../redux/user/userSlice.js";
+import {app}   from '../firebase.js'
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
+import DropdownList from '../components/DropdownList.jsx';
+
 
 const ProfilePage = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
+  const [selectedOption, setSelectedOption] = useState()
   const fileRef = useRef(null);
   const [formData, setFormData] = useState({})
   const [dob, setDob] = useState('')
   const [file, setFile] = useState(undefined)
+  const [filePerc, setFilePerc] = useState(0)
+  const [fileUploadError, setFileUploadError] = useState(false)
   const dispatch = useDispatch()
+  console.log(fileRef)
+console.log(file)
+console.log(filePerc)
+console.log(fileUploadError)
+console.log(formData)
+
+  useEffect(() => {
+    if(file){
+      handleUpload(file)
+    }
+  }, [file])
 
 
-  console.log(formData)
+
+  const handleUpload = (file) => {
+    const storage = getStorage(app)
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, fileName)
+    const uploadTask = uploadBytesResumable(storageRef, file)
+
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setFilePerc(Math.round(progress))
+        console.log(filePerc)
+
+      },
+      (error) => {
+        setFileUploadError(true)
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => setFormData({...formData, profilePicture: downloadURL}))
+      }
+    )
+  }
+
+
 
 
   const handleChange = (e) => {
@@ -54,26 +96,49 @@ const ProfilePage = () => {
   };
  
   return (
-    <main className="max-w-6xl p-3 mx-auto my-5 ">
+    <main className="max-w-6xl p-2 mx-auto my-2 ">
       <div className='flex flex-col sm:flex-row gap-4'>
         <div className='flex flex-col gap-4 flex-2'>
-          <img onClick={() => fileRef.current.click()} className='border shadow-lg p-3 mx-auto object-contain rounded-lg'  src={formData.profilePicture || currentUser.profilePicture} alt="pro" style={{width: 250, height: 250}} />
-          <input type="file" 
+        <form className='flex flex-col gap-1 flex-1' onSubmit={handleSubmit}>
+        <input type="file" 
           ref={fileRef}
           hidden
-          accept="image/*" onChange={(e) => setFile(e.target.file)} /><br />
-          <button className='bg-orange-700 text-white p-2 border shadow-md rounded-lg'>Upload</button>
-        </div>
+          accept="image/*" onChange={(e) => setFile(e.target.files[0])} /><br />
+          <img onClick={() => fileRef.current.click()} className='border shadow-lg p-2 mx-auto object-fill rounded-full'  src={formData.profilePicture || currentUser.profilePicture} alt="pro" style={{width: 250, height: 250}} />
+          <p className='text-sm self-center'>
+            {fileUploadError ? (
+              <span className='text-red-700'>
+                Error while uploading 
+              </span>
+            ): filePerc > 0 && filePerc < 100 ? (
+              <span className='text-slate-700'>{`Uploading ${filePerc}%`}</span>
+            ) : filePerc === 100 ? (
+              <span className='text-green-700'>Image Uploaded Successfully</span>
+            ): ""}
+          </p>
+         
+          {/* <button className='bg-orange-700 text-white p-2 border shadow-md rounded-lg'>Upload</button> */}
+ 
        
-          <form className='flex flex-col gap-1 flex-1' onSubmit={handleSubmit}>
+          
             <div className='flex flex-col sm:flex-row gap-4'>
               <label>FirstName</label>
             <input type='text' className='p-1 rounded border' id='firstName' defaultValue={currentUser.firstName} onChange={handleChange} />
             <label>LastName</label>
             <input type='text' className='p-1 rounded border' id='lastName'  defaultValue={currentUser.lastName}  onChange={handleChange}/>
+        
+            {currentUser.role ==='Admin' ? <p>You are amn admin</p> : ""}
+            
+            
             <label>Role</label>
-            <input type='text' className='p-1 rounded border' id='role'  defaultValue={currentUser.role} onChange={handleChange}/>
+            {/* <input type='text' className='p-1 rounded border' id='role'  defaultValue={currentUser.role} onChange={handleChange}/> */}
+            <select id='role' onChange={handleChange} defaultValue={currentUser.role}>
+              <option value={currentUser.role} disabled>{currentUser.role}</option>
+              <option>User</option>
+              <option>Admin</option>
+            </select>
             </div>
+            {/* <DropdownList User="User" Admin="Admin" selectedOption setSelectedOption  /> */}
             <label>Date of Birth</label>
             <input type='date' className='p-1 rounded border' id='dob'  defaultValue={currentUser.dob}  onChange={handleChange} />
             <label>Email</label>
@@ -85,16 +150,32 @@ const ProfilePage = () => {
             <label>Address</label>
             <textarea  rows="3" id='address'  defaultValue={currentUser.address} onChange={handleChange}></textarea>
             <label>City</label>
-            <input type='text' className='p-1 rounded border' id='city'  defaultValue={currentUser.city} onChange={handleChange}/>
+            <select id='city' onChange={handleChange} defaultValue={currentUser.city}>
+              <option value={currentUser.city} disabled>{currentUser.city}</option>
+              <option>Udaipur</option>
+              <option>Jaipur</option>
+            </select>
+            {/* <input type='text' className='p-1 rounded border' id='city'  defaultValue={currentUser.city} onChange={handleChange}/> */}
             <label>State</label>
-            <input type='text' className='p-1 rounded border' id='state'  defaultValue={currentUser.state} onChange={handleChange}/>
+            {/* <input type='text' className='p-1 rounded border' id='state'  defaultValue={currentUser.state} onChange={handleChange}/> */}
+            <select id='state' onChange={handleChange} defaultValue={currentUser.state}>
+              <option value={currentUser.state} disabled>{currentUser.state}</option>
+              <option>Rajasthan</option>
+              <option>Gujrat</option>
+            </select>
             <label>Country</label>
-            <input type='text' className='p-1 rounded border' id='country'  defaultValue={currentUser.country} onChange={handleChange}/>
-            <button className='bg-orange-700 text-white broder rounded-lg shadow-lg p-2'>Update</button>
+            {/* <input type='text' className='p-1 rounded border' id='country'  defaultValue={currentUser.country} onChange={handleChange}/> */}
+            <select id='country' onChange={handleChange} defaultValue={currentUser.country}>
+              <option value={currentUser.country} disabled>{currentUser.country}</option>
+              <option>INDIA</option>
+              <option>Kuwait</option>
+            </select>
+            <button className='bg-orange-700 text-white broder rounded-lg shadow-lg p-2'>{loading ? 'Loading' : "Update"}</button>
+          
           </form>
         
       </div>
-     
+     </div>
   </main>
   )
 }

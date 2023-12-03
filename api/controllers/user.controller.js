@@ -14,6 +14,7 @@ export const userUpdate = async (req, res, next) => {
       req.params.id,
       {
         $set: {
+          profilePicture: req.body.profilePicture,
          firstName: req.body.firstName,
          lastName: req.body.lastName,
          role: req.body.role,
