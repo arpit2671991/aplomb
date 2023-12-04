@@ -96,10 +96,10 @@ console.log(formData)
   };
  
   return (
-    <main className="max-w-6xl p-2 mx-auto my-2 ">
-      <div className='flex flex-col sm:flex-row gap-4'>
+    <main className="max-w-full p-2 my-2 ">
+      <div className='flex flex-col gap-4'>
         <div className='flex flex-col gap-4 flex-2'>
-        <form className='flex flex-col gap-1 flex-1' onSubmit={handleSubmit}>
+        <form className='flex flex-col gap-1 flex-1 mx-auto' onSubmit={handleSubmit}>
         <input type="file" 
           ref={fileRef}
           hidden
@@ -116,29 +116,18 @@ console.log(formData)
               <span className='text-green-700'>Image Uploaded Successfully</span>
             ): ""}
           </p>
-         
-          {/* <button className='bg-orange-700 text-white p-2 border shadow-md rounded-lg'>Upload</button> */}
- 
-       
-          
             <div className='flex flex-col sm:flex-row gap-4'>
               <label>FirstName</label>
             <input type='text' className='p-1 rounded border' id='firstName' defaultValue={currentUser.firstName} onChange={handleChange} />
             <label>LastName</label>
             <input type='text' className='p-1 rounded border' id='lastName'  defaultValue={currentUser.lastName}  onChange={handleChange}/>
         
-            {currentUser.role ==='Admin' ? <p>You are amn admin</p> : ""}
-            
-            
-            <label>Role</label>
-            {/* <input type='text' className='p-1 rounded border' id='role'  defaultValue={currentUser.role} onChange={handleChange}/> */}
-            <select id='role' onChange={handleChange} defaultValue={currentUser.role}>
+            {currentUser.role ==='Admin' && <> <label>Role</label><select id='role' onChange={handleChange} defaultValue={currentUser.role}>
               <option value={currentUser.role} disabled>{currentUser.role}</option>
               <option>User</option>
               <option>Admin</option>
-            </select>
+            </select></> }
             </div>
-            {/* <DropdownList User="User" Admin="Admin" selectedOption setSelectedOption  /> */}
             <label>Date of Birth</label>
             <input type='date' className='p-1 rounded border' id='dob'  defaultValue={currentUser.dob}  onChange={handleChange} />
             <label>Email</label>
@@ -155,16 +144,13 @@ console.log(formData)
               <option>Udaipur</option>
               <option>Jaipur</option>
             </select>
-            {/* <input type='text' className='p-1 rounded border' id='city'  defaultValue={currentUser.city} onChange={handleChange}/> */}
             <label>State</label>
-            {/* <input type='text' className='p-1 rounded border' id='state'  defaultValue={currentUser.state} onChange={handleChange}/> */}
             <select id='state' onChange={handleChange} defaultValue={currentUser.state}>
               <option value={currentUser.state} disabled>{currentUser.state}</option>
               <option>Rajasthan</option>
               <option>Gujrat</option>
             </select>
             <label>Country</label>
-            {/* <input type='text' className='p-1 rounded border' id='country'  defaultValue={currentUser.country} onChange={handleChange}/> */}
             <select id='country' onChange={handleChange} defaultValue={currentUser.country}>
               <option value={currentUser.country} disabled>{currentUser.country}</option>
               <option>INDIA</option>

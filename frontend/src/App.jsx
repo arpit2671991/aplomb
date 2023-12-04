@@ -12,6 +12,7 @@ import ProfilePage from './pages/ProfilePage'
 
 
 
+
 function App() {
 
 
@@ -27,9 +28,12 @@ function App() {
         <Route path='/signup' element={<SignupPage />} />
         <Route path='/contact' element={<ContactPage />} />
         <Route element={<PrivateRoute />}>
+       
           <Route path='/profile' element={<ProfilePage />} />
+      
         </Route>
       </Routes>
+      <p>Developed by: Arpit Lavera</p>
     </BrowserRouter>
   )
 }

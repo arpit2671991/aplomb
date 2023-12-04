@@ -61,10 +61,13 @@ const SigninPage = () => {
       console.log(data);
        if(data.success === false){
         dispatch(signInFailure(data.message))
+      
        }
-
-       dispatch(signInSuccess(data))
-       navigate('/')
+     
+        dispatch(signInSuccess(data))
+        navigate('/')
+      
+     
      
  
     } catch (error) {

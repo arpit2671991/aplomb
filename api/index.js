@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import authRoutes from './routes/auth.router.js'
 import userRoutes from './routes/user.router.js'
+import courseRoutes from './routes/course.router.js'
 dotenv.config()
 import cookieParser from "cookie-parser";
 
@@ -20,8 +21,11 @@ const port = process.env.port || 5000
 // middlewares
 app.use(express.json())
 app.use(cookieParser());
+
 app.use('/api/auth/v1', authRoutes)
 app.use('/api/user/v1', userRoutes)
+app.use('/api/course/v1', courseRoutes)
+
 
 
 

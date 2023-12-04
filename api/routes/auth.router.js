@@ -1,5 +1,5 @@
 import express from 'express'
-import { signin, signup } from '../controllers/auth.controller.js'
+import { signin, signout, signup } from '../controllers/auth.controller.js'
 import { verifyToken } from '../utils/verifyToken.js'
 
 // variables
@@ -14,6 +14,7 @@ router.get('/test', (req, res, next) => {
 
 router.post('/signup', signup)
 router.post('/signin',  signin)
+router.get('/signout', signout )
 
 
 
