@@ -9,6 +9,9 @@ import ContactPage from './pages/ContactPage'
 import SignupPage  from './pages/SignupPage'
 import PrivateRoute from './components/PrivateRoute'
 import ProfilePage from './pages/ProfilePage'
+import AdminPage from './pages/AdminPage'
+import ManageCourse from './pages/ManageCourse'
+import AddCoursePage from './pages/AddCoursePage'
 
 
 
@@ -28,7 +31,9 @@ function App() {
         <Route path='/signup' element={<SignupPage />} />
         <Route path='/contact' element={<ContactPage />} />
         <Route element={<PrivateRoute />}>
-       
+          <Route path='/admin' element={<AdminPage />} />
+          <Route path='/manage-course' element={<ManageCourse />} />
+          <Route path='/add-new-course' element={<AddCoursePage />} />
           <Route path='/profile' element={<ProfilePage />} />
       
         </Route>

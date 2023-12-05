@@ -63,10 +63,16 @@ const SigninPage = () => {
         dispatch(signInFailure(data.message))
       
        }
-     
+       if(data.role === "Admin"){
         dispatch(signInSuccess(data))
-        navigate('/')
-      
+        navigate('/admin')
+       }else{
+         
+            dispatch(signInSuccess(data))
+            navigate('/')
+          
+
+       }
      
      
  

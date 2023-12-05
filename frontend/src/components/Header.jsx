@@ -93,7 +93,7 @@ const Header = () => {
       {isOpen && (
         <div className="absolute right-15 mt-12 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
           <div className="py-1">
-            <Link to="/profile"
+            <Link to="/profile" onClick={() => setIsOpen(!isOpen)}
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
             >
