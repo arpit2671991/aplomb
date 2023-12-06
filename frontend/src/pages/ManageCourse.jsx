@@ -5,7 +5,7 @@ const ManageCourse = () => {
   return (
     <div className='max-w-6xl mx-auto py-10'>
         <h1 className='text-center text-sm sm:text-lg font-semibold text-gray-700 underline'>All Courses Provided</h1>
-        <div className='flex justify-end py-4'><Link to="/add-new-course" type="button" className="px-3 py-2 text-sm font-sm sm:font-medium text-center text-white bg-slate-800 rounded-lg hover:bg-slate-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add New Course</Link></div>
+        <div className='flex justify-end py-4'><Link to="/add-new-course" type="button" className="px-3 py-2 text-sm font-sm sm:font-medium text-center text-white bg-orange-700 rounded-lg hover:bg-slate-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add New Course</Link></div>
         
        
 
@@ -51,8 +51,8 @@ const ManageCourse = () => {
                 
                 <td className="px-6 py-4">
                     <div className='flex flex-row  gap-3 hover:cursor-pointer'>
-                    <FaRegEye className='text-lg font-semibold text-green-700' />
-                    <FaRegSave className='text-lg font-semibold text-green-700' />
+                    <FaRegEye className='text-lg font-semibold text-orange-700' />
+                    <FaRegSave className='text-lg font-semibold text-orange-700' />
                     </div>
                   
                 </td>
