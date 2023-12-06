@@ -71,9 +71,10 @@ const AddCoursePage = () => {
             Course Description
           </label>
           <textarea
+            type="textarea"
             rows="4"
             className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            id="title"
+            id="description"
             value={formData.description}
             onChange={handleChange}
           ></textarea>
@@ -162,7 +163,7 @@ const AddCoursePage = () => {
             type="text"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
-            id="eligibility"
+            id="eligibilty"
             value={formData.eligibilty}
             onChange={handleChange}
           />
