@@ -12,7 +12,7 @@ const courseSchema = new mongoose.Schema({
         required: true,
     },
     thumbnail: {
-        type: String,
+       type: Array,
         required: true
     },
     link: {
@@ -29,7 +29,7 @@ const courseSchema = new mongoose.Schema({
     },
     eligibility: {
         type: String,
-        required: true
+      
     },
     isActive: {
         type:Boolean,

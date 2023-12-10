@@ -1,7 +1,37 @@
-import React from 'react'
+import {useState, useEffect} from 'react'
 import { FaRegEye, FaRegSave } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+
+
+
+
+
+
+
 const ManageCourse = () => {
+    const [allcourses, setAllCourses] = useState([])
+    
+   
+    useEffect(() => 
+    {
+        const fetchAllCourses = async() => {
+        try {
+            const res = await fetch('/api/course/v1/all-courses')
+            const data = await res.json()
+            setAllCourses(data)
+        } catch (error) {
+            console.log(error)
+        }
+    };
+    fetchAllCourses()
+}, [])
+
+    console.log(allcourses)
+
+    const handleChange = (e) => {
+        
+       
+    }
   return (
     <div className='max-w-6xl mx-auto py-10'>
         <h1 className='text-center text-sm sm:text-lg font-semibold text-gray-700 underline'>All Courses Provided</h1>
@@ -29,22 +59,24 @@ const ManageCourse = () => {
             </tr>
         </thead>
         <tbody>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-        
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <Link>
-                   English Spoken Course
+        {allcourses.length > 0 && allcourses.map((course, index) => (
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" key={ index}>
+               
+                    
+                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <Link to={`/course/${course._id}`}>
+                   {course.title}
                    </Link>
                 </th>
                 <td className="px-6 py-4">
                 <div className="flex items-center">
-                        <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                        <input id="isActive" type="checkbox" checked={course.isActive} onChange={handleChange} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                         <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
                     </div>
                 </td>
                 <td className="px-6 py-4">
                 <div className="flex items-center">
-                        <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                        <input id="isFeatured" type="checkbox" onChange={handleChange} checked={course.isFeatured}  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                         <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
                     </div>
                 </td>
@@ -56,8 +88,11 @@ const ManageCourse = () => {
                     </div>
                   
                 </td>
+              
+               
+                
             </tr>
-           
+            ))}
         </tbody>
     </table>
     {/* <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">

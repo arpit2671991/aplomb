@@ -1,10 +1,12 @@
 import express from 'express'
-import { createCourse } from '../controllers/course.controller.js'
+import { createCourse, getAllCourses } from '../controllers/course.controller.js'
+import { verifyToken } from '../utils/verifyToken.js'
 
 const router = express.Router()
 
-router.post('/create-course', createCourse)
+router.post('/create-course', verifyToken, createCourse)
 
+router.get('/all-courses', getAllCourses)
 
 
 
