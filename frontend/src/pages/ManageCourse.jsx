@@ -54,6 +54,9 @@ const ManageCourse = () => {
                     Is Featured
                 </th>
                 <th scope="col" className="px-6 py-3">
+                    Is Offer
+                </th>
+                <th scope="col" className="px-6 py-3">
                     Action
                 </th>
             </tr>
@@ -80,7 +83,12 @@ const ManageCourse = () => {
                         <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
                     </div>
                 </td>
-                
+                <td className="px-6 py-4">
+                <div className="flex items-center">
+                        <input id="isOffer" type="checkbox" onChange={handleChange} checked={course.isOffer}  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                        <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
+                    </div>
+                </td>
                 <td className="px-6 py-4">
                     <div className='flex flex-row  gap-3 hover:cursor-pointer'>
                     <FaRegEye className='text-lg font-semibold text-orange-700' />

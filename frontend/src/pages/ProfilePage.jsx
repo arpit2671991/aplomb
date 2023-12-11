@@ -14,6 +14,7 @@ import {
 import {app}   from '../firebase.js'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import DropdownList from '../components/DropdownList.jsx';
+import { Link } from 'react-router-dom';
 
 
 const ProfilePage = () => {
@@ -105,6 +106,9 @@ console.log(formData)
           hidden
           accept="image/*" onChange={(e) => setFile(e.target.files[0])} /><br />
           <img onClick={() => fileRef.current.click()} className='border shadow-lg p-2 mx-auto object-fill rounded-full'  src={formData.profilePicture || currentUser.profilePicture} alt="pro" style={{width: 250, height: 250}} />
+          {currentUser.role === "Admin" && <Link to="/admin" className='bg-green-700 text-white text-sm font-semibold p-1 w-full sm:w-44'>Manage Your Website</Link>}
+          
+          
           <p className='text-sm self-center'>
             {fileUploadError ? (
               <span className='text-red-700'>

@@ -12,6 +12,7 @@ import ProfilePage from './pages/ProfilePage'
 import AdminPage from './pages/AdminPage'
 import ManageCourse from './pages/ManageCourse'
 import AddCoursePage from './pages/AddCoursePage'
+import CoursePage from './pages/CoursePage'
 
 
 
@@ -30,6 +31,7 @@ function App() {
         <Route path='/signin' element={<SigninPage />} />
         <Route path='/signup' element={<SignupPage />} />
         <Route path='/contact' element={<ContactPage />} />
+        <Route path="/course/:courseId" element={<CoursePage />} />
         <Route element={<PrivateRoute />}>
           <Route path='/admin' element={<AdminPage />} />
           <Route path='/manage-course' element={<ManageCourse />} />
