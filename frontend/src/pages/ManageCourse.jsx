@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import { FaRegEye, FaRegSave } from "react-icons/fa";
+import { CiEdit, CiTrash } from "react-icons/ci";
 import { Link } from 'react-router-dom';
 
 
@@ -67,7 +67,7 @@ const ManageCourse = () => {
                
                     
                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <Link to={`/course/${course._id}`}>
+                    <Link className='text-sm font-semibold text-slate-900 hover:text-orange-700' to={`/course/${course._id}`}>
                    {course.title}
                    </Link>
                 </th>
@@ -91,8 +91,8 @@ const ManageCourse = () => {
                 </td>
                 <td className="px-6 py-4">
                     <div className='flex flex-row  gap-3 hover:cursor-pointer'>
-                    <FaRegEye className='text-lg font-semibold text-orange-700' />
-                    <FaRegSave className='text-lg font-semibold text-orange-700' />
+                    <CiEdit  className='text-xl font-bold text-orange-700 hover:text-green-800' />
+                    <CiTrash className='text-xl font-bold text-orange-700 hover:text-green-800' />
                     </div>
                   
                 </td>
