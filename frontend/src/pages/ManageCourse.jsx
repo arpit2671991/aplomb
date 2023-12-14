@@ -91,14 +91,13 @@ const ManageCourse = () => {
                 </td>
                 <td className="px-6 py-4">
                     <div className='flex flex-row  gap-3 hover:cursor-pointer'>
-                    <CiEdit  className='text-xl font-bold text-orange-700 hover:text-green-800' />
+                    <Link to={`/update-course/${course._id}`}><CiEdit  className='text-xl font-bold text-orange-700 hover:text-green-800' /></Link>
+                    
                     <CiTrash className='text-xl font-bold text-orange-700 hover:text-green-800' />
                     </div>
                   
                 </td>
-              
-               
-                
+
             </tr>
             ))}
         </tbody>

@@ -110,7 +110,8 @@ const AddCoursePage = () => {
     if (
       e.target.type === "number" ||
       e.target.type === "text" ||
-      e.target.type === "textarea"
+      e.target.type === "textarea" ||
+      e.target.type === "date"
     ) {
       setFormData({
         ...formData,
@@ -320,8 +321,37 @@ const AddCoursePage = () => {
             />
           </div>
         )}
+        <div className="relative max-w-full mb-5">
+        <label
+              htmlFor="atartingdate"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Starting Date
+            </label>
+  <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+    <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+      <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+    </svg>
+  </div>
+  <input id="starts" onChange={handleChange} type="date" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date" />
+</div>
+{formData.isOffer && <div className="relative max-w-full mb-5">
+        <label
+              htmlFor="validity"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Offer Vaild Till
+            </label>
+  <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+    <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+      <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+    </svg>
+  </div>
+  <input  id="offerVailidity" onChange={handleChange}  type="date" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date" />
+</div> }
 
-        <div className="flex items-start mb-5">
+
+        <div className="flex items-start flex-col mb-5 sm:flex-row">
           <div className="flex items-center h-5">
             <input
               id="isActive"

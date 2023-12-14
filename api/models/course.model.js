@@ -43,6 +43,14 @@ const courseSchema = new mongoose.Schema({
         type:Boolean,
         default: false
     },
+    starts:{
+        type:Date,
+        required: true
+    },
+    offerVailidity:{
+        type: Date,
+        required: true
+    }
     
    
 }, {timestamps: true})

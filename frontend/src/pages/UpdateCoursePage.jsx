@@ -7,7 +7,7 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase.js";
 import { AiOutlineCloudUpload, AiOutlineClose } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const UpdateCoursePage = () => {
   const [imgs, setImgs] = useState([]);
@@ -30,11 +30,25 @@ const UpdateCoursePage = () => {
   const [error, setError] = useState(false);
   const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
+  const params = useParams()
   console.log(formData);
 
 
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    const fetchCourse = async() => {
+      const courseId = params.courseId;
+      const res = await fetch(`/api/course/v1//course/${courseId}`);
+      const data = await res.json();
+      if(data.success === false){
+        setError(data.message)
+        console.log(data.error)
+        return;
+      }
+      setFormData(data)
+    }
+    fetchCourse()
+  }, [])
 
   const handleUploadImg = () => {
     if (imgs.length > 0 && formData.thumbnail.length < 4) {
@@ -134,7 +148,7 @@ const UpdateCoursePage = () => {
       }
       setLoading(true);
       setError(false);
-      const res = await fetch("/api/course/v1/create-course", {
+      const res = await fetch(`/api/course/v1/update-course/${params.courseId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

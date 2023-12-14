@@ -103,7 +103,7 @@ const CoursePage = () => {
           <div
             className="relative z-[1] block rounded-lg bg-[hsla(0,0%,100%,0.55)] px-6 py-12 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] backdrop-blur-[30px] dark:bg-[hsla(0,0%,5%,0.55)] dark:shadow-black/20 md:px-12 lg:-mr-14">
             <h2 className="mb-8 text-3xl font-bold">{course.title}</h2>
-            {course.offer && <p className="mb-8 pb-2 text-neutral-500 dark:text-neutral-300 lg:pb-0">
+            {course.isOffer && <p className="mb-8 pb-2 text-neutral-500 dark:text-neutral-300 lg:pb-0">
              Avail The Opportunity Right Away
              <div className="flex justify-start gap-4 text-center mt-2"><span className="text-gray-900 font-semibold text-xl">Offer!!!!!</span><BiSolidOffer className="text-yellow-600 font-extrabold text-3xl flex" /><span className="text-red-800 text-lg font-bold">Discount {course.discount} INR</span></div>
              
@@ -143,6 +143,7 @@ const CoursePage = () => {
             {course.description}
             </p>
             <div className="flex justify-center mt-12"><span className="text-green-700 font-bold text-lg">Fees: Rs {course.fees} Only</span></div>
+           <input type="date" defaultValue={course.starts}  />
           </div>
         </div>
 
@@ -150,7 +151,6 @@ const CoursePage = () => {
           <img src={course.thumbnail[0]}
             className="w-full rounded-lg shadow-lg dark:shadow-black/20" alt="image" />
         </div>
-        
       </div>
       
     </div>

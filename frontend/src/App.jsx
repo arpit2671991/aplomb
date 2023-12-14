@@ -37,7 +37,7 @@ function App() {
           <Route path='/admin' element={<AdminPage />} />
           <Route path='/manage-course' element={<ManageCourse />} />
           <Route path='/add-new-course' element={<AddCoursePage />} />
-          <Route path='/update-course/courseId' element={<UpdateCoursePage />} />
+          <Route path='/update-course/:courseId' element={<UpdateCoursePage />} />
           <Route path='/profile' element={<ProfilePage />} />
       
         </Route>
