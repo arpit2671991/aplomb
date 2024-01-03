@@ -44,12 +44,16 @@ const courseSchema = new mongoose.Schema({
         default: false
     },
     starts:{
-        type:Date,
+        type:String,
         required: true
     },
     offerVailidity:{
-        type: Date,
+        type: String,
         required: true
+    },
+    isElig: {
+        type: Boolean,
+        default: false
     }
     
    

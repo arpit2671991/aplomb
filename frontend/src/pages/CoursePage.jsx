@@ -138,21 +138,33 @@ const CoursePage = () => {
                 Best experience
               </p>
             </div>
-
-            <p className="mb-0 text-neutral-500 dark:text-neutral-300">
+            <span>Course Description</span>
+            <p className="mb-5 text-neutral-500 dark:text-neutral-300">
             {course.description}
             </p>
-            <div className="flex justify-center mt-12"><span className="text-green-700 font-bold text-lg">Fees: Rs {course.fees} Only</span></div>
-           <input type="date" defaultValue={course.starts}  />
+            {course.isElig && <><span>Required Eligibility</span>
+           <p className="mb-5 text-neutral-500 dark:text-neutral-300">
+            {course.eligibility}
+            </p></>}
+            
+            <div className="mb-5"><span className="text-green-700 font-bold text-lg">Fees: Rs {course.fees} Only</span></div>
+           {course.isOffer &&  <div className="mb-5"> <label>Offer Valid till: </label>  
+           <input type="date" defaultValue={course.offerVailidity} disabled  /></div>}
+          <div className="mb-5"> <label>Batch Staring on: </label>  
+           <input type="date" defaultValue={course.starts} disabled  /></div>
+           <button className="bg-orange-700 p-2 text-white rounded-lg hover:opacity-95">Enroll Now</button>
           </div>
+         
         </div>
-
+        
         <div>
           <img src={course.thumbnail[0]}
             className="w-full rounded-lg shadow-lg dark:shadow-black/20" alt="image" />
+            
         </div>
+       
       </div>
-      
+    
     </div>
     <div className="px-6 py-12 text-center md:px-12 lg:my-12 lg:text-left">
     <div className="w-100 mx-auto sm:max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl">
@@ -175,6 +187,7 @@ const CoursePage = () => {
       </div>
     </div>
   </div>
+  <div></div>
   </section>
 
 </div>

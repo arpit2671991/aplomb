@@ -18,12 +18,15 @@ const UpdateCoursePage = () => {
     link: "",
     fees: 1000,
     discount: 500,
-    eligibilty: "",
+    eligibility: "",
     isActive: true,
     isFeatured: true,
     isOffer: false,
+    starts: "",
+    offerVailidity: "", 
+    isElig: false
   });
-  const [isElig, setElig] = useState(false);
+  // const [isElig, setElig] = useState(false);
   const [uploadingImg, setUploadingImg] = useState(false);
   const [imgError, setImgError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -111,14 +114,18 @@ const UpdateCoursePage = () => {
   };
 
   const handleChange = (e) => {
-    if (e.target.id === "isEligi") {
-      setElig(!isElig);
-    }
+    // if (e.target.id === "isEligi") {
+    //   setFormData({
+    //     ...formData,
+    //     !isElig
+    //   });
+    // }
 
     if (
       e.target.id === "isActive" ||
       e.target.id === "isFeatured" ||
-      e.target.id === "isOffer"
+      e.target.id === "isOffer" ||
+      e.target.id === "isElig"
     ) {
       setFormData({
         ...formData,
@@ -128,7 +135,8 @@ const UpdateCoursePage = () => {
     if (
       e.target.type === "number" ||
       e.target.type === "text" ||
-      e.target.type === "textarea"
+      e.target.type === "textarea" ||
+      e.target.type === "date"
     ) {
       setFormData({
         ...formData,
@@ -321,7 +329,7 @@ const UpdateCoursePage = () => {
           </div>
         )}
 
-        {isElig && (
+        {formData.isElig && (
           <div className="mb-5">
             <label
               htmlFor="eligibility"
@@ -332,16 +340,44 @@ const UpdateCoursePage = () => {
             <input
               type="text"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              id="eligibilty"
-              value={formData.eligibilty}
+              id="eligibility"
+              value={formData.eligibility}
               onChange={handleChange}
             />
           </div>
         )}
-
+ <div className="relative max-w-full mb-5">
+        <label
+              htmlFor="atartingdate"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Batch Starts on
+            </label>
+  <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+    <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+      <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+    </svg>
+  </div>
+  <input id="starts" value={formData.starts}  onChange={handleChange} type="date" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date" />
+</div>
+{formData.isOffer && <div className="relative max-w-full mb-5">
+        <label
+              htmlFor="validity"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Offer Vaild Till
+            </label>
+  <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+    <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+      <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+    </svg>
+  </div>
+  <input  id="offerVailidity" value={formData.offerVailidity} onChange={handleChange}  type="date" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date" />
+</div> }
         <div className="flex items-start mb-5">
           <div className="flex items-center h-5">
             <input
+           
               id="isActive"
               type="checkbox"
               checked={formData.isActive}
@@ -372,9 +408,9 @@ const UpdateCoursePage = () => {
           </label>
           <div className="flex items-center h-5 mx-2">
             <input
-              id="isEligi"
+              id="isElig"
               type="checkbox"
-              checked={isElig}
+              checked={formData.isElig}
               onChange={handleChange}
               className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
             />

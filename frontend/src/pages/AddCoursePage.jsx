@@ -18,12 +18,13 @@ const AddCoursePage = () => {
     link: "",
     fees: 1000,
     discount: 500,
-    eligibilty: "",
+    eligibility: "",
     isActive: true,
     isFeatured: true,
     isOffer: false,
+    isElig: false
   });
-  const [isElig, setElig] = useState(false);
+  // const [isElig, setElig] = useState(false);
   const [uploadingImg, setUploadingImg] = useState(false);
   const [imgError, setImgError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -93,14 +94,15 @@ const AddCoursePage = () => {
   };
 
   const handleChange = (e) => {
-    if (e.target.id === "isEligi") {
-      setElig(!isElig);
-    }
+    // if (e.target.id === "isEligi") {
+    //   setElig(!isElig);
+    // }
 
     if (
       e.target.id === "isActive" ||
       e.target.id === "isFeatured" ||
-      e.target.id === "isOffer"
+      e.target.id === "isOffer" ||
+      e.target.id === "isElig"
     ) {
       setFormData({
         ...formData,
@@ -304,7 +306,7 @@ const AddCoursePage = () => {
           </div>
         )}
 
-        {isElig && (
+        {formData.isElig && (
           <div className="mb-5">
             <label
               htmlFor="eligibility"
@@ -315,8 +317,8 @@ const AddCoursePage = () => {
             <input
               type="text"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              id="eligibilty"
-              value={formData.eligibilty}
+              id="eligibility"
+              value={formData.eligibility}
               onChange={handleChange}
             />
           </div>
@@ -326,7 +328,7 @@ const AddCoursePage = () => {
               htmlFor="atartingdate"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Starting Date
+              Batch Starts on
             </label>
   <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
     <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -384,9 +386,9 @@ const AddCoursePage = () => {
           </label>
           <div className="flex items-center h-5 mx-2">
             <input
-              id="isEligi"
+              id="isElig"
               type="checkbox"
-              checked={isElig}
+              checked={formData.isElig}
               onChange={handleChange}
               className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
             />
