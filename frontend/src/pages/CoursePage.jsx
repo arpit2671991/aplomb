@@ -148,6 +148,9 @@ const CoursePage = () => {
             </p></>}
             
             <div className="mb-5"><span className="text-green-700 font-bold text-lg">Fees: Rs {course.fees} Only</span></div>
+            <div className="mb-5">
+              <span>Course mode:</span><span className={course.mode === "Online" ? 'text-green-700 font-bold' : 'text-red-700 font-bold'}> {course.mode}</span>
+            </div>
            {course.isOffer &&  <div className="mb-5"> <label>Offer Valid till: </label>  
            <input type="date" defaultValue={course.offerVailidity} disabled  /></div>}
           <div className="mb-5"> <label>Batch Staring on: </label>  

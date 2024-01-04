@@ -22,7 +22,8 @@ const AddCoursePage = () => {
     isActive: true,
     isFeatured: true,
     isOffer: false,
-    isElig: false
+    isElig: false,
+    mode: "Offline"
   });
   // const [isElig, setElig] = useState(false);
   const [uploadingImg, setUploadingImg] = useState(false);
@@ -98,6 +99,7 @@ const AddCoursePage = () => {
     //   setElig(!isElig);
     // }
 
+
     if (
       e.target.id === "isActive" ||
       e.target.id === "isFeatured" ||
@@ -113,13 +115,15 @@ const AddCoursePage = () => {
       e.target.type === "number" ||
       e.target.type === "text" ||
       e.target.type === "textarea" ||
-      e.target.type === "date"
+      e.target.type === "date" ||
+      e.target.id === "mode"
     ) {
       setFormData({
         ...formData,
         [e.target.id]: e.target.value,
       });
     }
+   
   };
 
   const handleSubmit = async (e) => {
@@ -305,6 +309,15 @@ const AddCoursePage = () => {
             />
           </div>
         )}
+        <div className="mb-5">
+          <label htmlFor="mode">Mode</label>
+          <select value={formData.mode} onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              name="mode" id="mode">
+            <option>Offline</option>
+            <option>Online</option>
+
+          </select>
+        </div>
 
         {formData.isElig && (
           <div className="mb-5">

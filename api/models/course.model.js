@@ -54,6 +54,10 @@ const courseSchema = new mongoose.Schema({
     isElig: {
         type: Boolean,
         default: false
+    },
+    mode:{
+        type: String,
+        required: true
     }
     
    
