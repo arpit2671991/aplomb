@@ -14,6 +14,7 @@ import ManageCourse from './pages/ManageCourse'
 import AddCoursePage from './pages/AddCoursePage'
 import CoursePage from './pages/CoursePage'
 import UpdateCoursePage from './pages/UpdateCoursePage'
+import Footer from './components/Footer'
 
 
 
@@ -42,7 +43,7 @@ function App() {
       
         </Route>
       </Routes>
-      <p>Developed by: Arpit Lavera</p>
+     <Footer />
     </BrowserRouter>
   )
 }

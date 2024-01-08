@@ -26,12 +26,25 @@ const ManageCourse = () => {
     fetchAllCourses()
 }, [])
 
-    console.log(allcourses)
+ 
+const handleDeleteCourse = async(courseId) => {
+    try {
+        const res = await fetch(`/api/course/v1/delete/${courseId}`, {
+            method: 'DELETE',
 
-    const handleChange = (e) => {
-        
-       
+        })
+
+        const data = res.json();
+
+        if(data.success === false){
+            console.log(data.message)
+            return;
+        }
+    } catch (error) {
+        console.log(error)
     }
+}
+
   return (
     <div className='max-w-6xl mx-auto py-10'>
         <h1 className='text-center text-sm sm:text-lg font-semibold text-gray-700 underline'>All Courses Provided</h1>

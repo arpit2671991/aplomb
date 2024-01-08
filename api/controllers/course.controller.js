@@ -57,3 +57,15 @@ export const updateCourse = async(req, res, next) => {
 //     res.status(500).json(error)
 //   }
 // }
+
+
+export const deleteCourse = async(req, res, next) => {
+    const course = await Course.findById(req.params.id)
+    if(!course) return res.status(404).json('There is no course available!')
+    try {
+      await Course.findByIdAndDelete(req.params.id)
+      res.status(200).json('Course has been deleted!')
+    } catch (error) {
+      res.status(500).json(error)
+    }
+}
