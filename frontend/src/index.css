@@ -5,3 +5,110 @@
 body{
     background-color: white;
 }
+
+/* Carousel */
+.cc-carousel {
+    display: flex;
+    -webkit-display: flex;
+    margin-bottom: 32px;
+    position: relative;
+  }
+  
+  .cc-carousel-frame {
+    overflow: hidden;
+    flex: 1;
+    -webkit-flex: 1;
+  }
+  
+  .cc-carousel-full-width .cc-carousel-content > * {
+    width: 100% !important;
+  }
+  
+  .cc-carousel-nav {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    min-width: 40px;
+    max-width: 40px;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    cursor: pointer;
+    border: none;
+    background-color: rgba(255,255,255,0.2);
+    transition: all 0.2s ease-in-out;
+    z-index: 1;
+  }
+  
+  .cc-carousel-nav:hover {
+    background-color: rgba(255,255,255,0.5);
+  }
+  
+  .cc-carousel-nav-left {
+    background-image: url("data:image/svg+xml,%3Csvg id='icon-keyboard_arrow_left' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15.422 16.594l-1.406 1.406-6-6 6-6 1.406 1.406-4.594 4.594z' fill='%23ffffff'/%3E%3C/svg%3E");
+  }
+  
+  .cc-carousel-nav-right {
+    background-image: url("data:image/svg+xml,%3Csvg id='icon-keyboard_arrow_right' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.578 16.594l4.594-4.594-4.594-4.594 1.406-1.406 6 6-6 6z' fill='%23ffffff'/%3E%3C/svg%3E");
+    right: 0;
+  }
+  
+  .cc-carousel-flex-btns .cc-carousel-frame {
+    padding: 0 16px;
+  }
+  
+  .cc-carousel-flex-btns .cc-carousel-nav {
+    position: relative;
+    border: 1px solid #000;
+  }
+  
+  .cc-carousel-flex-btns .cc-carousel-nav-left {
+    background-image: url("data:image/svg+xml,%3Csvg id='icon-keyboard_arrow_left' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15.422 16.594l-1.406 1.406-6-6 6-6 1.406 1.406-4.594 4.594z'/%3E%3C/svg%3E");
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    -webkit-border-radius: 8px 0 0 8px; /* Safari and Chrome */
+    -moz-border-radius: 8px 0 0 8px; /* Firefox */
+  }
+  
+  .cc-carousel-flex-btns .cc-carousel-nav-right {
+    background-image: url("data:image/svg+xml,%3Csvg id='icon-keyboard_arrow_right' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.578 16.594l4.594-4.594-4.594-4.594 1.406-1.406 6 6-6 6z'/%3E%3C/svg%3E");
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    -webkit-border-radius: 0 8px 8px 0; /* Safari and Chrome */
+    -moz-border-radius: 0 8px 8px 0; /* Firefox */
+  }
+  
+  .cc-carousel-fade .cc-carousel-content > *  {
+    transition: opacity 1.0s ease-in !important;
+  }
+  
+  .cc-carousel-content {
+    display: flex;
+    gap: 16px;
+    height: 100%;
+    position: relative;
+  }
+  
+  .cc-carousel-content::after {
+    content: '';
+    position: absolute;
+    background: #fff;
+    opacity: 1;
+    transition: opacity 0.8s ease-in-out;
+    top: 0;
+    right: -16px;
+    bottom: 0;
+    left: -16px;
+  }
+  
+  .cc-carousel-content.cc-carousel-loaded::after {
+    opacity: 0;
+  }
+  
+  .cc-carousel-content > * {
+    position: absolute;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }

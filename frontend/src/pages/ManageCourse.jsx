@@ -26,6 +26,7 @@ const ManageCourse = () => {
     fetchAllCourses()
 }, [])
 
+const handleChange = (e) => {}
  
 const handleDeleteCourse = async(courseId) => {
     try {
@@ -40,6 +41,7 @@ const handleDeleteCourse = async(courseId) => {
             console.log(data.message)
             return;
         }
+        setAllCourses((prev) => prev.filter((course) => course._id !== courseId))
     } catch (error) {
         console.log(error)
     }
@@ -106,7 +108,7 @@ const handleDeleteCourse = async(courseId) => {
                     <div className='flex flex-row  gap-3 hover:cursor-pointer'>
                     <Link to={`/update-course/${course._id}`}><CiEdit  className='text-xl font-bold text-orange-700 hover:text-green-800' /></Link>
                     
-                    <CiTrash className='text-xl font-bold text-orange-700 hover:text-green-800' />
+                    <CiTrash className='text-xl font-bold text-orange-700 hover:text-green-800' onClick={() => handleDeleteCourse(course._id)} />
                     </div>
                   
                 </td>
