@@ -15,6 +15,7 @@ import AddCoursePage from './pages/AddCoursePage'
 import CoursePage from './pages/CoursePage'
 import UpdateCoursePage from './pages/UpdateCoursePage'
 import Footer from './components/Footer'
+import Galleries from './pages/Galleries'
 
 
 
@@ -40,7 +41,7 @@ function App() {
           <Route path='/add-new-course' element={<AddCoursePage />} />
           <Route path='/update-course/:courseId' element={<UpdateCoursePage />} />
           <Route path='/profile' element={<ProfilePage />} />
-      
+          <Route path='/upload-galleries' element={<Galleries />} />
         </Route>
       </Routes>
      <Footer />
