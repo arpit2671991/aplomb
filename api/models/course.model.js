@@ -49,7 +49,7 @@ const courseSchema = new mongoose.Schema({
     },
     offerVailidity:{
         type: String,
-        required: true
+        
     },
     isElig: {
         type: Boolean,
