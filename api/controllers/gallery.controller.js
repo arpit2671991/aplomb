@@ -1,44 +1,44 @@
 import Gallery from "../models/gallary.model.js";
 
-export const createCourse = async (req, res, next) => {
+export const createGallery = async (req, res, next) => {
   try {
-    const course = await Course.create(req.body);
-    return res.status(201).json(course);
+    const gallery = await Gallery.create(req.body);
+    return res.status(201).json(gallery);
   } catch (error) {
     next(error);
   }
 };
 
-export const getAllCourses = async (req, res, next) => {
+export const getAllGalleries = async (req, res, next) => {
   try {
-    const allcourses = await Course.find();
-    return res.status(200).json(allcourses);
+    const allgalleries = await Gallery.find();
+    return res.status(200).json(allgalleries);
   } catch (error) {
     next(error);
   }
 };
 
 
-export const getCourse = async(req, res, next) => {
+export const getGallery = async(req, res, next) => {
   try {
-    const course = await Course.findById(req.params.id);
-    if(!course){
-      return res.status(404).json('No Course Available')
+    const gallery = await Gallery.findById(req.params.id);
+    if(!gallery){
+      return res.status(404).json('No items Available')
     }
-    res.status(200).json(course)
+    res.status(200).json(gallery)
   } catch (error) {
     res.status(500).json(error)
   }
 }
 
-export const updateCourse = async(req, res, next) => {
-  const course = await Course.findById(req.params.id);
-  if(!course){
-    return res.status(404).json('No course found!')
+export const updateGallery = async(req, res, next) => {
+  const gallery = await Gallery.findById(req.params.id);
+  if(!gallery){
+    return res.status(404).json('No items found!')
   }
   try {
-    const updatedCourse = await Course.findByIdAndUpdate(req.params.id, req.body, {new: true})
-    res.status(200).json(updatedCourse)
+    const updatedGallery = await Gallery.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    res.status(200).json(updatedGallery)
   } catch (error) {
     res.status(500).json(error)
   }
@@ -59,12 +59,12 @@ export const updateCourse = async(req, res, next) => {
 // }
 
 
-export const deleteCourse = async(req, res, next) => {
-    const course = await Course.findById(req.params.id)
-    if(!course) return res.status(404).json('There is no course available!')
+export const deleteGallery = async(req, res, next) => {
+    const gallery = await Gallery.findById(req.params.id)
+    if(!gallery) return res.status(404).json('There is no items available!')
     try {
-      await Course.findByIdAndDelete(req.params.id)
-      res.status(200).json('Course has been deleted!')
+      await Gallery.findByIdAndDelete(req.params.id)
+      res.status(200).json('items has been deleted!')
     } catch (error) {
       res.status(500).json(error)
     }

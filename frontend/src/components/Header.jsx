@@ -60,7 +60,7 @@ const Header = () => {
               <Link to='/corporate'>
               <li className=' hover:text-orange-700'>Corporate Training</li>
               </Link>
-              <Link to='/'>
+              <Link to='/all-galleries'>
               <li className=' hover:text-orange-700'>Gallary</li>
               </Link>
            

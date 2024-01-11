@@ -1,32 +1,45 @@
-import React, {useState, useEffect} from "react";
-import {Link} from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SlideCourse from "../components/SlideCourse";
+import MainSlide from "../components/MainSlide";
 
 const HomePage = () => {
+  const [courses, setCourses] = useState([]);
+  const [allgalleries, setAllGalleries] = useState([]);
 
-  const [courses, setCourses] = useState([])
-
-
-
-  useEffect(() => 
-  {
-      const fetchFeaturedCourses = async() => {
+  useEffect(() => {
+    const fetchAllGAlleries = async (res) => {
       try {
-          const res = await fetch('/api/course/v1/all-courses')
-          const data = await res.json()
-          setCourses(data)
+        const res = await fetch("/api/gallery/v1/all-galleries");
+        const data = await res.json();
+        setAllGalleries(data);
       } catch (error) {
-          console.log(error)
+        res.status(500).json(error);
       }
-  };
-  fetchFeaturedCourses()
-}, [])
+    };
+    fetchAllGAlleries();
+  }, []);
 
-console.log(courses)
+  console.log(allgalleries);
+
+  useEffect(() => {
+    const fetchFeaturedCourses = async () => {
+      try {
+        const res = await fetch("/api/course/v1/all-courses");
+        const data = await res.json();
+        setCourses(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchFeaturedCourses();
+  }, []);
+
+  console.log(courses);
   var settings = {
     dots: false,
     arrows: true,
@@ -62,9 +75,24 @@ console.log(courses)
       },
     ],
   };
+  const banners = {
+    infinite: true,
+    speed: 100,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    fade: true,
+    autoplaySpeed: 2000
+  };
   return (
     <div className="max-w-full mx-auto">
-      <div className="max-h-56 mb-5">Banner</div>
+      <div className="mb-10">
+        <Slider {...banners}>
+          {allgalleries.map((item, index) => (
+            <MainSlide img={item.images[0]} key={index} />
+          ))}
+        </Slider>
+      </div>
 
       <h1 className="mb-5 font-semibold text-3xl text-center">
         Start your English Learning Journey TODAY.
@@ -181,29 +209,44 @@ console.log(courses)
       </div>
 
       <div className="bg-white max-w-6xl mx-auto">
-        <div className="flex justify-between items-center"><h1 className="mb-3 font-semibold text-3xl text-center">
-          Our Featured Courses
-        </h1>
-        <Link to='/courses' className="border border-gray-800 rounded-full px-6 py-1 font-semibold text-gray-600">View All</Link>
+        <div className="flex justify-between items-center">
+          <h1 className="mb-3 font-semibold text-3xl text-center">
+            Our Featured Courses
+          </h1>
+          <Link
+            to="/courses"
+            className="border border-gray-800 rounded-full px-6 py-1 font-semibold text-gray-600"
+          >
+            View All
+          </Link>
         </div>
-        
+
         <div className="p-3">
           <Slider {...settings}>
-
             {courses.map((course) => {
-              if(course.isFeatured === true){
+              if (course.isFeatured === true) {
                 return (
-                  <SlideCourse key={course._id} title={course.title.length > 30 ? `${course.title.substring(0, 20)}...`: course.title} thumbnail={course.thumbnail } discount={course.discount} fees={course.fees} courseId={course._id}/>
-                )
+                  <SlideCourse
+                    key={course._id}
+                    title={
+                      course.title.length > 30
+                        ? `${course.title.substring(0, 20)}...`
+                        : course.title
+                    }
+                    thumbnail={course.thumbnail}
+                    discount={course.discount}
+                    fees={course.fees}
+                    courseId={course._id}
+                  />
+                );
               }
             })}
-        
+
             {/* {
               courses.map((course) => (
                 <SlideCourse key={course._id} title={course.title.length > 30 ? `${course.title.substring(0, 20)}...`: course.title} thumbnail={course.thumbnail } discount={course.discount} fees={course.fees}/>
               ))
             }  */}
-           
           </Slider>
         </div>
       </div>

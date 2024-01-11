@@ -1,98 +1,78 @@
-import React, {useState} from 'react'
-import {Link} from 'react-router-dom'
-import UploadGallery from '../components/UploadGallery'
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Galleries = () => {
+  const [allgalleries, setAllGalleries] = useState([]);
 
-    const [modalOpen, setModalOpen] = useState(false)
+  useEffect(() => {
+    const fetchAllGAlleries = async (res) => {
+      try {
+        const res = await fetch("/api/gallery/v1/all-galleries");
+        const data = await res.json();
+        setAllGalleries(data);
+      } catch (error) {
+        res.status(500).json(error);
+      }
+    };
+    fetchAllGAlleries();
+  }, []);
 
-    const handleModal = () => {
-        setModalOpen(!modalOpen)
-    }
+  console.log(allgalleries);
+
   return (
-    <>
-    {modalOpen ? (
-        <UploadGallery modalOpen={modalOpen} setModalOpen={setModalOpen} />
-    ): (<div className='max-w-6xl mx-auto'>
-
-    <div className='m-10'>
-        <div className='float-right'>
-            <button onClick={handleModal} className='bg-orange-700 px-4 py-1 rounded-lg text-white'>Add New Gallery</button>
+    <div className="max-w-6xl mx-auto ">
+      <div className="m-10">
+        <div className="float-right">
+          <Link
+            to="/upload-galleries"
+            className="bg-orange-700 px-4 py-1 rounded-lg text-white"
+          >
+            Add New Gallery
+          </Link>
         </div>
-   
-    </div>
-    <div className='text-center'>
-        <h1 className='font-semibold text-2xl text-gray-600'>Image Galleries</h1>
-    </div>
-    <div className='grid grid-cols-3 gap-2'>
-    <div className="relative mt-5 m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
-          <Link
+      </div>
+      <div className="text-center">
+        <h1 className="font-semibold text-2xl text-gray-600">
+          Image Galleries
+        </h1>
+      </div>
+     
+        <div className=" grid grid-flow-row-1 gap-2 items-center sm:grid-cols-3" >
+        {allgalleries.map((gallery, index) => (
+          <div key={index} className="relative mt-5 m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+            <Link
               className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl"
-              to={`/`}
+              to={`/Photos/${gallery._id}`}
             >
               <img
                 className="object-cover"
-                src="https://tecdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(70).webp"
+                src={gallery.images[0]}
                 alt="product image"
               />
-              
-           </Link>
+            </Link>
             <div className="mt-4 px-5 pb-5">
-            <Link   to={`/`}>
+              <Link to={`/Photos/${gallery._id}`}>
                 <h5 className="text-xl tracking-tight text-center text-slate-900">
-                
-                 Course Launch Event
+                  {gallery.title}
                 </h5>
-             </Link>
-             <div className="mt-4 px-5 pb-5">
-            <Link
-                  to={`/`}
-                className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
-              >
-                
-                View All Photos
-             </Link>
-             
-             </div>
+                <p>{gallery.description}</p>
+                <p>{gallery.date}</p>
+              </Link>
+              <div className="mt-4 px-5 pb-5">
+                <Link
+                  to={`/Photos/${gallery._id}`}
+                  className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                >
+                  View All Photos
+                </Link>
+              </div>
             </div>
           </div>
-          <div className="relative mt-5 m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
-          <Link
-              className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl"
-              to={`/`}
-            >
-              <img
-                className="object-cover"
-                src="https://tecdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(70).webp"
-                alt="product image"
-              />
-              
-           </Link>
-            <div className="mt-4 px-5 pb-5">
-            <Link   to={`/`}>
-                <h5 className="text-xl tracking-tight text-center text-slate-900">
-                
-                 Course Launch Event
-                </h5>
-             </Link>
-             <div className="mt-4 px-5 pb-5">
-            <Link
-                  to={`/`}
-                className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
-              >
-                
-                View All Photos
-             </Link>
-             
-             </div>
-            </div>
-          </div>
+          ))}
+        </div>
+     
     </div>
-    
-</div>) }
-    
-    </>
-  )
-}
+  );
+};
 
-export default Galleries
+export default Galleries;

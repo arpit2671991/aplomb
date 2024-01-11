@@ -16,6 +16,9 @@ import CoursePage from './pages/CoursePage'
 import UpdateCoursePage from './pages/UpdateCoursePage'
 import Footer from './components/Footer'
 import Galleries from './pages/Galleries'
+import UploadGallery from './components/UploadGallery'
+import AllGalleries from './pages/AllGalleries'
+import GalleryMediaPage from './pages/GalleryMediaPage'
 
 
 
@@ -31,6 +34,8 @@ function App() {
         <Route path='/about' element={<AboutPage/>} />
         <Route path='/courses' element={<CoursesPage/>} />
         <Route path='/corporate' element={<CorporatePage/>} />
+        <Route path='/all-galleries' element={<AllGalleries/>} />
+        <Route path='/all-media' element={<GalleryMediaPage/>} />
         <Route path='/signin' element={<SigninPage />} />
         <Route path='/signup' element={<SignupPage />} />
         <Route path='/contact' element={<ContactPage />} />
@@ -41,7 +46,8 @@ function App() {
           <Route path='/add-new-course' element={<AddCoursePage />} />
           <Route path='/update-course/:courseId' element={<UpdateCoursePage />} />
           <Route path='/profile' element={<ProfilePage />} />
-          <Route path='/upload-galleries' element={<Galleries />} />
+          <Route path='/galleries' element={<Galleries />} />
+          <Route path='/upload-galleries' element={<UploadGallery />} />
         </Route>
       </Routes>
      <Footer />

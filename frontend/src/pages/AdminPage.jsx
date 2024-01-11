@@ -19,7 +19,7 @@ const AdminPage = () => {
             </Link>
             </div>
             <div className=' flex text-center justify-center '>
-            <Link to="/upload-galleries">
+            <Link to="/galleries">
                 <img src="https://icon-library.com/images/picture-gallery-icon/picture-gallery-icon-7.jpg" alt="training" style={{height: 100, width: 100}} />
                 <h1 className='text-gray-700 mt-3'>Upload Gallaries</h1>  
             </Link>

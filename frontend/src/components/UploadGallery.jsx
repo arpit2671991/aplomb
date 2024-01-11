@@ -1,118 +1,344 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { app } from "../firebase.js";
+import { AiOutlineCloudUpload, AiOutlineClose } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+const UploadGallery = () => {
+  const [imgs, setImgs] = useState([]);
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    images: [],
+    videoLink: "",
+    isPhoto: true,
+    isVideo: false,
+    date: "",
+  });
+  const [uploadingImg, setUploadingImg] = useState(false);
+  const [imgError, setImgError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const navigate = useNavigate();
+  console.log(formData);
 
-const UploadGallery = ({modalOpen, setModalOpen}) => {
+  const handleUploadImg = () => {
+    if (imgs.length > 0 && formData.images.length < 2) {
+      setUploadingImg(true);
+      setImgError(false);
+      const promises = [];
 
-    
+      for (let i = 0; i < imgs.length; i++) {
+        promises.push(storeImages(imgs[i]));
+      }
+      Promise.all(promises)
+        .then((urls) => {
+          setFormData({
+            ...formData,
+            images: formData.images.concat(urls),
+          });
+          setImgError(false);
+          setUploadingImg(false);
+        })
+        .catch((err) => {
+          setImgError("There is an error", err);
+          setUploadingImg(false);
+        });
+    } else {
+      setImgError("There is an error you cant upload");
+      setUploadingImg(false);
+    }
+  };
+  const storeImages = async (file) => {
+    return new Promise((resolve, reject) => {
+      const storage = getStorage(app);
+      const fileName = new Date().getTime() + file.name;
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`upload is ${progress}% done`);
+          setProgress(Math.round(progress));
+        },
+        (error) => {
+          reject(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            resolve(downloadURL);
+          });
+        }
+      );
+    });
+  };
+
+  const handleRemoveImage = (index) => {
+    setFormData({
+      ...formData,
+      images: formData.images.filter((_, i) => i !== index),
+    });
+  };
+
+  const handleChange = (e) => {
+    // if (e.target.id === "isEligi") {
+    //   setElig(!isElig);
+    // }
+
+    if (e.target.id === "isPhoto" || e.target.id === "isVideo") {
+      setFormData({
+        ...formData,
+        [e.target.id]: e.target.checked,
+      });
+    }
+    if (
+      e.target.type === "text" ||
+      e.target.type === "textarea" ||
+      e.target.type === "date"
+    ) {
+      setFormData({
+        ...formData,
+        [e.target.id]: e.target.value,
+      });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (formData.images.length < 0) {
+        return setError("you must upload atleast 1 image");
+      }
+
+      setLoading(true);
+      setError(false);
+      const res = await fetch("/api/gallery/v1/create-gallery", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      setLoading(false);
+      if (data.success === false) {
+        setError(data.message);
+        setLoading(false);
+      }
+      console.log(data);
+      navigate("/galleries");
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
+  };
+
   return (
     <>
-    <div className="bg-gray-500 h-screen w-screen sm:px-8 md:px-16 sm:py-8">
-      <main className="container mx-auto max-w-screen-lg h-full">
-     
-        <article aria-label="File Upload Modal" className="relative h-full flex flex-col bg-white shadow-xl rounded-md" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);" ondragleave="dragLeaveHandler(event);" ondragenter="dragEnterHandler(event);">
-        
-          <div id="overlay" className="w-full h-full absolute top-0 left-0 pointer-events-none z-50 flex flex-col items-center justify-center rounded-md">
-            <i>
-              <svg className="fill-current w-12 h-12 mb-3 text-blue-700" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M19.479 10.092c-.212-3.951-3.473-7.092-7.479-7.092-4.005 0-7.267 3.141-7.479 7.092-2.57.463-4.521 2.706-4.521 5.408 0 3.037 2.463 5.5 5.5 5.5h13c3.037 0 5.5-2.463 5.5-5.5 0-2.702-1.951-4.945-4.521-5.408zm-7.479-1.092l4 4h-3v4h-2v-4h-3l4-4z" />
-              </svg>
-            </i>
-            <p className="text-lg text-blue-700">Drop files to upload</p>
+      <div className="bg-gray-500  w-screen sm:px-8 md:px-16 sm:py-8">
+        <main className="container mx-auto max-w-screen-lg h-full">
+          <div className="max-w-6xl mx-auto py-10 bg-white">
+            <form className="max-w-4xl mx-auto p-3" onSubmit={handleSubmit}>
+              <div className="mb-5">
+                <label
+                  htmlFor="title"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Gallery Title
+                </label>
+                <input
+                  type="text"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
+                  id="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-5">
+                <label
+                  htmlFor="description"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Description
+                </label>
+                <textarea
+                  type="textarea"
+                  rows="4"
+                  className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  id="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                ></textarea>
+              </div>
+              
+              <div className="mb-5">
+                <label
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="thumbanil"
+                >
+                  Upload Pictures
+                </label>
+                <input
+                  className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                  aria-describedby="user_avatar_help"
+                  type="file"
+                  id="images"
+                  accept="image/*"
+                  multiple
+                  onChange={(e) => setImgs(e.target.files)}
+                  disabled={uploadingImg}
+                />
+
+                <div
+                  className="mt-1 text-sm text-gray-500 dark:text-gray-300 flex justify-between"
+                  id="user_avatar_help"
+                >
+                  {uploadingImg ? (
+                    <ul className="max-w-md space-y-2 text-gray-500 list-inside dark:text-gray-400">
+                      <li className="flex items-center">
+                        <div role="status">
+                          <svg
+                            aria-hidden="true"
+                            className="w-4 h-4 me-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                            viewBox="0 0 100 101"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                              fill="currentColor"
+                            />
+                            <path
+                              d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                              fill="currentFill"
+                            />
+                          </svg>
+                          <span className="sr-only">Loading...</span>
+                        </div>
+                        <p>{`Uploding Image ${progress}%`}</p>
+                      </li>
+                    </ul>
+                  ) : (
+                    <>
+                      {" "}
+                      <p>Upload pictures</p>
+                      <AiOutlineCloudUpload
+                        onClick={handleUploadImg}
+                        className="text-3xl font-bold text-green-700 hover:cursor-pointer"
+                      />
+                      <p className="text-red-700 text-sm">
+                        {imgError && imgError}
+                      </p>
+                    </>
+                  )}
+                </div>
+              </div>
+              <div className="mb-5 flex flex-col sm:flex-row">
+                {formData.images.length > 0 &&
+                  formData.images.map((url, index) => (
+                    <div key={url}>
+                      <AiOutlineClose
+                        onClick={() => handleRemoveImage(index)}
+                      />
+                      <img src={url} alt="course" style={{ height: 250 }} />
+                    </div>
+                  ))}
+              </div>
+              {formData.isVideo && (
+                <div className="mb-5">
+                  <label
+                    htmlFor="videoLink"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Video Link
+                  </label>
+                  <input
+                    type="text"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    id="videoLink"
+                    value={formData.videoLink}
+                    onChange={handleChange}
+                  />
+                </div>
+              )}
+
+              <div className="relative max-w-full mb-5">
+                <label
+                  htmlFor="atartingdate"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Date
+                </label>
+
+                <input
+                  id="date"
+                  type="date"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Select date"
+                  value={formData.date}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="flex items-start ">
+                <div className="flex items-center h-5">
+                  <input
+                    id="isPhoto"
+                    onChange={handleChange}
+                    defaultChecked={formData.isPhoto}
+                    type="checkbox"
+                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                  />
+                </div>
+                <label
+                  htmlFor="isPhoto"
+                  className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Upload Photo
+                </label>
+                <div className="flex items-center h-5 mx-2">
+                  <input
+                    id="isVideo"
+                    defaultChecked={formData.isVideo}
+                    onChange={handleChange}
+                    type="checkbox"
+                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                  />
+                </div>
+                <label
+                  htmlFor="isVideo"
+                  className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Upload Video
+                </label>
+              </div>
+              <div className="flex mt-4">
+              <button disabled={loading || uploadingImg} className="text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
+              {loading ? "Saving..." : "Save"}
+              </button>
+              <Link
+                to="/galleries"
+                className="text-white bg-gray-700 mx-3 hover:bg-orange-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+              >
+                Cancel
+              </Link>
+              </div>
+              {error && error}
+            </form>
           </div>
+        </main>
+      </div>
+    </>
+  );
+};
 
-         
-          <section className="h-full overflow-auto p-8 w-full h-full flex flex-col">
-            <header className="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
-              <p className="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
-                <span>Drag and drop your</span>&nbsp;<span>files anywhere or</span>
-              </p>
-              <input id="hidden-input" type="file" multiple className="hidden" />
-              <button id="button" className="mt-2 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none">
-                Upload a file
-              </button>
-            </header>
-
-            <h1 className="pt-8 pb-3 font-semibold sm:text-lg text-gray-900">
-              To Upload
-            </h1>
-
-            <ul id="gallery" className="flex flex-1 flex-wrap -m-1">
-              <li id="empty" className="h-full w-full text-center flex flex-col items-center justify-center items-center">
-                <img className="mx-auto w-32" src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png" alt="no data" />
-                <span className="text-small text-gray-500">No files selected</span>
-              </li>
-            </ul>
-          </section>
-
-         
-          <footer className="flex justify-end px-8 pb-8 pt-4">
-            <button id="submit" className="rounded-sm px-3 py-1 bg-blue-700 hover:bg-blue-500 text-white focus:shadow-outline focus:outline-none">
-              Upload now
-            </button>
-            <button onClick={() => setModalOpen(!modalOpen)} id="cancel" className="ml-3 rounded-sm px-3 py-1 hover:bg-gray-300 focus:shadow-outline focus:outline-none">
-              Cancel
-            </button>
-          </footer>
-        </article>
-      </main>
-    </div>
-
-   
-    <template id="file-template">
-      <li className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-24">
-        <article tabindex="0" className="group w-full h-full rounded-md focus:outline-none focus:shadow-outline elative bg-gray-100 cursor-pointer relative shadow-sm">
-          <img alt="upload preview" className="img-preview hidden w-full h-full sticky object-cover rounded-md bg-fixed" />
-
-          <section className="flex flex-col rounded-md text-xs break-words w-full h-full z-20 absolute top-0 py-2 px-3">
-            <h1 className="flex-1 group-hover:text-blue-800"></h1>
-            <div className="flex">
-              <span className="p-1 text-blue-800">
-                <i>
-                  <svg className="fill-current w-4 h-4 ml-auto pt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path d="M15 2v5h5v15h-16v-20h11zm1-2h-14v24h20v-18l-6-6z" />
-                  </svg>
-                </i>
-              </span>
-              <p className="p-1 size text-xs text-gray-700"></p>
-              <button className="delete ml-auto focus:outline-none hover:bg-gray-300 p-1 rounded-md text-gray-800">
-                <svg className="pointer-events-none fill-current w-4 h-4 ml-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path className="pointer-events-none" d="M3 6l3 18h12l3-18h-18zm19-4v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.316c0 .901.73 2 1.631 2h5.711z" />
-                </svg>
-              </button>
-            </div>
-          </section>
-        </article>
-      </li>
-    </template>
-
-    <template id="image-template">
-      <li className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-24">
-        <article tabindex="0" className="group hasImage w-full h-full rounded-md focus:outline-none focus:shadow-outline bg-gray-100 cursor-pointer relative text-transparent hover:text-white shadow-sm">
-          <img alt="upload preview" className="img-preview w-full h-full sticky object-cover rounded-md bg-fixed" />
-
-          <section className="flex flex-col rounded-md text-xs break-words w-full h-full z-20 absolute top-0 py-2 px-3">
-            <h1 className="flex-1"></h1>
-            <div className="flex">
-              <span className="p-1">
-                <i>
-                  <svg className="fill-current w-4 h-4 ml-auto pt-" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path d="M5 8.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5zm9 .5l-2.519 4-2.481-1.96-4 5.96h14l-5-8zm8-4v14h-20v-14h20zm2-2h-24v18h24v-18z" />
-                  </svg>
-                </i>
-              </span>
-
-              <p className="p-1 size text-xs"></p>
-              <button className="delete ml-auto focus:outline-none hover:bg-gray-300 p-1 rounded-md">
-                <svg className="pointer-events-none fill-current w-4 h-4 ml-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path className="pointer-events-none" d="M3 6l3 18h12l3-18h-18zm19-4v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.316c0 .901.73 2 1.631 2h5.711z" />
-                </svg>
-              </button>
-            </div>
-          </section>
-        </article>
-      </li>
-    </template>
-  </>
-  )
-}
-
-export default UploadGallery
+export default UploadGallery;

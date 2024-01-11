@@ -7,9 +7,28 @@ title: {
     type: String,
     required: true
 },
+description:{
+type: String,
+required: true
+},
+isPhoto:{
+    type: Boolean,
+    default: true
+},
+isVideo: {
+    type: Boolean,
+    defaul: false
+},
+date: {
+    type: String,
+},
 images:{
     type: Array,
     required: true
+},
+videoLink:{
+    type: String,
+    
 }
 
 
