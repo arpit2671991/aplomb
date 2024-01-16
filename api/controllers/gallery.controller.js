@@ -25,7 +25,9 @@ export const getGallery = async(req, res, next) => {
     if(!gallery){
       return res.status(404).json('No items Available')
     }
+    console.log(gallery)
     res.status(200).json(gallery)
+
   } catch (error) {
     res.status(500).json(error)
   }

@@ -21,12 +21,13 @@ const AllGalleries = () => {
     <div className="max-w-6xl mx-auto ">
     <div className="m-10">
       <div className="float-right">
-        <Link
+        {/* <Link
           to="/upload-galleries"
           className="bg-orange-700 px-4 py-1 rounded-lg text-white"
+          
         >
           Add New Gallery
-        </Link>
+        </Link> */}
       </div>
     </div>
     <div className="text-center">
