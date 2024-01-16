@@ -42,7 +42,7 @@ const UpdateCoursePage = () => {
   useEffect(() => {
     const fetchCourse = async() => {
       const courseId = params.courseId;
-      const res = await fetch(`/api/course/v1//course/${courseId}`);
+      const res = await fetch(`/api/course/v1/course/${courseId}`);
       const data = await res.json();
       if(data.success === false){
         setError(data.message)

@@ -19,6 +19,7 @@ import Galleries from './pages/Galleries'
 import UploadGallery from './components/UploadGallery'
 import AllGalleries from './pages/AllGalleries'
 import GalleryMediaPage from './pages/GalleryMediaPage'
+import UpdateGallery from './pages/UpdateGallery'
 
 
 
@@ -48,6 +49,7 @@ function App() {
           <Route path='/profile' element={<ProfilePage />} />
           <Route path='/galleries' element={<Galleries />} />
           <Route path='/upload-galleries' element={<UploadGallery />} />
+          <Route path='/update-gallery/:galleryId' element={<UpdateGallery />} />
         </Route>
       </Routes>
      <Footer />

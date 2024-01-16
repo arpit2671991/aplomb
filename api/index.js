@@ -5,6 +5,7 @@ import authRoutes from './routes/auth.router.js'
 import userRoutes from './routes/user.router.js'
 import courseRoutes from './routes/course.router.js'
 import galleryRoutes from './routes/gallery.router.js'
+import contactRoutes from './routes/contactRoutes.js'
 
 
 dotenv.config()
@@ -29,6 +30,7 @@ app.use('/api/auth/v1', authRoutes)
 app.use('/api/user/v1', userRoutes)
 app.use('/api/course/v1', courseRoutes)
 app.use('/api/gallery/v1', galleryRoutes)
+app.use('/api/contact/v1', contactRoutes)
 
 
 

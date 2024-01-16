@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { FaPenToSquare, FaRegTrashCan } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 const Galleries = () => {
@@ -19,6 +20,24 @@ const Galleries = () => {
 
   console.log(allgalleries);
 
+  const handleDeleteGallery = async(galleryId) => {
+    try {
+        const res = await fetch(`/api/gallery/v1/delete/${galleryId}`, {
+            method: 'DELETE',
+
+        })
+
+        const data = res.json();
+
+        if(data.success === false){
+            console.log(data.message)
+            return;
+        }
+        setAllGalleries((prev) => prev.filter((gallery) => gallery._id !== galleryId))
+    } catch (error) {
+        console.log(error)
+    }
+}
   return (
     <div className="max-w-6xl mx-auto ">
       <div className="m-10">
@@ -65,6 +84,11 @@ const Galleries = () => {
                 >
                   View All Photos
                 </Link>
+                
+              </div>
+              <div className="mt-2 flex justify-center gap-4 items-center">
+                <Link to={`/update-gallery/${gallery._id}`}><FaPenToSquare className="text-xl font-semibold" /></Link>
+                <Link><FaRegTrashCan onClick={() => handleDeleteGallery(gallery._id)} className="text-xl font-semibold"  /></Link>
               </div>
             </div>
           </div>
