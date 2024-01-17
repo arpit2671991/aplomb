@@ -18,6 +18,7 @@ const HomePage = () => {
   })
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(false)
+  const [successMsg, setSuccessMsg] = useState('')
 
   useEffect(() => {
     const fetchAllGAlleries = async (res) => {
@@ -40,6 +41,7 @@ const HomePage = () => {
         const res = await fetch("/api/course/v1/all-courses");
         const data = await res.json();
         setCourses(data);
+        setSuccess(true)
       } catch (error) {
         console.log(error);
       }
@@ -56,8 +58,39 @@ const HomePage = () => {
     })
   }
 
+  const clearForm = () => {
+    setFormData({
+      fullName: "",
+      email: "",
+      mobile: undefined,
+      message: ""
+    })
+  }
+
   const handleSubmit = async(e) => {
     e.preventDefault()
+
+    try {
+      const res = await fetch('/api/contact/v1/send', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+       body: JSON.stringify(formData),
+      })
+      const data = await res.json()
+      if(success){
+        setSuccessMsg('There is an Error!')
+      }else{
+        setSuccessMsg('Message Sent!')
+      }
+      setFormData(data)
+      
+    } catch (error) {
+      console.log(error)
+      setError(error)
+   
+    }
     
   }
   console.log(courses);
@@ -156,7 +189,7 @@ const HomePage = () => {
           </div>
           <div className="bg-white shadow-lg  rounded-lg ">
             <div className="block max-w-md mx-auto rounded-lg bg-white p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className="relative mb-6 ">
                 <label
                     htmlFor="fullName"
@@ -237,6 +270,7 @@ const HomePage = () => {
                 >
                   Send
                 </button>
+      
               </form>
             </div>
           </div>
