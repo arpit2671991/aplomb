@@ -57,9 +57,7 @@ const Header = () => {
               <Link to='/courses'>
               <li className=' hover:text-orange-700'>Courses</li>
               </Link>
-              <Link to='/corporate'>
-              <li className=' hover:text-orange-700'>Corporate Training</li>
-              </Link>
+            
               <Link to='/all-galleries'>
               <li className=' hover:text-orange-700'>Gallary</li>
               </Link>

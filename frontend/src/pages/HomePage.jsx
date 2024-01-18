@@ -62,7 +62,7 @@ const HomePage = () => {
     setFormData({
       fullName: "",
       email: "",
-      mobile: undefined,
+      mobile: "",
       message: ""
     })
   }
@@ -85,10 +85,12 @@ const HomePage = () => {
         setSuccessMsg('Message Sent!')
       }
       setFormData(data)
+      clearForm()
       
     } catch (error) {
       console.log(error)
       setError(error)
+      clearForm()
    
     }
     

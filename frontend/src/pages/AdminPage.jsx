@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 
 const AdminPage = () => {
   return (
-    <div className='py-7 max-w-6xl mx-auto'>
+    <div className='bg-gray-500 max-w-full p-5'>
+    <div className='bg-white py-7 max-w-4xl mx-auto'>
         <h1 className='flex justify-center font-semibold text-gray-700 underline text-xl'>Manage Your Contents</h1>
         <div className='flex flex-col sm:flex-row justify-center p-3 gap-20 my-11'>
             <div className=' flex text-center justify-center'>
@@ -26,6 +27,7 @@ const AdminPage = () => {
             </div>
         </div>
     </div>
+    </div> 
   )
 }
 

@@ -97,10 +97,10 @@ console.log(formData)
   };
  
   return (
-    <main className="max-w-full p-2 my-2 ">
-      <div className='flex flex-col gap-4'>
+    <main className="bg-gray-500 max-w-full p-2  ">
+      <div className='flex flex-col gap-4 p-5'>
         <div className='flex flex-col gap-4 flex-2'>
-        <form className='flex flex-col gap-1 flex-1 mx-auto' onSubmit={handleSubmit}>
+        <form className='bg-white p-10 rounded-lg flex flex-col gap-1 flex-1 mx-auto' onSubmit={handleSubmit}>
         <input type="file" 
           ref={fileRef}
           hidden

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import SwiperCore from "swiper";
 import { Navigation } from "swiper/modules";
 import "swiper/css/bundle";
@@ -155,7 +155,7 @@ const CoursePage = () => {
            <input type="date" defaultValue={course.offerVailidity} disabled  /></div>}
           <div className="mb-5"> <label>Batch Staring on: </label>  
            <input type="date" defaultValue={course.starts} disabled  /></div>
-           <button className="bg-orange-700 p-2 text-white rounded-lg hover:opacity-95">Enroll Now</button>
+           <Link to="/contact" className="bg-orange-700 p-2 text-white rounded-lg hover:opacity-95">Enroll Now</Link>
           </div>
          
         </div>
