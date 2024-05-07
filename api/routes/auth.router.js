@@ -13,7 +13,7 @@ router.get('/test', (req, res, next) => {
 })
 
 router.post('/signup', signup)
-router.post('/signin',  signin)
+router.post('/signin',signin)
 router.get('/signout', signout )
 
 
