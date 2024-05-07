@@ -15,7 +15,7 @@ export const send = async (req, res, next) => {
     });
     const mailOptions = {
       from: "joopanwar1@gmail.com",
-      
+      to: "jyotipanwar2009@gmail.com",
       subject: "Enquiry",
       // text: `Name: ${fullName}\nEmail: ${email}\nMobile: ${mobile}\nMessage: ${message}`,
       html: `<body class="bg-gray-100">
